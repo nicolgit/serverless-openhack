@@ -3,5 +3,8 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "ConnectionStrings": {
+    "CosmosDBConnection": "AccountEndpoint=https://bfyoccosmosdb.documents.azure.com:443/;AccountKey=wOiZrrfx0H7gZYyRfa9vIjByJ2q8AkFd3y7PSjdW0xZF1DgpigDN9zhMg8nDi2JJ0rDiDoq6X0HwUKRLcX7ZSg==;"
   }
 }
