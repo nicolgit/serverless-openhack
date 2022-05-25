@@ -19,11 +19,17 @@ namespace nicold.function
                 databaseName: "RatingItems",
                 collectionName: "Ratings",
                 ConnectionStringSetting = "CosmosDBConnection",
-                Id = "{Query.ratingId}"
-                )]RatingObject rating,            
+                Id = "{Query.ratingId}",
+                PartitionKey = "{Query.userId}"
+                )] RatingObject rating,            
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+            if (rating == null)
+            {
+                return new NotFoundResult();
+            }
+            
             return new OkObjectResult(rating);
         }
     }
