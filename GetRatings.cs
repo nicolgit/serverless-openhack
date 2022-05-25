@@ -7,30 +7,26 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace nicold.function
 {
-    public static class GetRating
+    public static class GetRatings
     {
-        [FunctionName("GetRating")]
+        [FunctionName("GetRatings")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "GetRatings/{id}")] HttpRequest req,
             [CosmosDB(
                 databaseName: "RatingItems",
                 collectionName: "Ratings",
                 ConnectionStringSetting = "CosmosDBConnection",
-                Id = "{Query.ratingId}",
-                PartitionKey = "{Query.userId}"
-                )] RatingObject rating,            
+                SqlQuery = "select * from Ratings r where r.userId = {id}"                
+                )] IEnumerable<RatingObject> ratings,     
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-            if (rating == null)
-            {
-                return new NotFoundResult();
-            }
-            
-            return new OkObjectResult(rating);
+
+            return new OkObjectResult(ratings);
         }
     }
 }
