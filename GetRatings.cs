@@ -20,7 +20,7 @@ namespace nicold.function
                 databaseName: "RatingItems",
                 collectionName: "Ratings",
                 ConnectionStringSetting = "CosmosDBConnection",
-                SqlQuery = "select * from Ratings r where r.userId = 'cc20a6fb-a91f-4192-874d-132493685376'"                
+                SqlQuery = "select * from Ratings r where r.userId = {id}"                
                 )] IEnumerable<RatingObject> ratings,     
             ILogger log)
         {
