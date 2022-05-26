@@ -24,6 +24,7 @@ namespace nicold.function
         {
             var exceptions = new List<Exception>();
             log.LogInformation("Event hub started");
+            log.LogInformation($"Event hub started with {events.Length} events");
 
             foreach (EventData eventData in events)
             {
