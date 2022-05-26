@@ -10,9 +10,9 @@
     },
     "extensions": {
         "eventHubs": {
-            "maxEventBatchSize" : 10,
+            "maxEventBatchSize" : 64,
             "batchCheckpointFrequency" : 5,
-            "prefetchCount" : 300,
+            "prefetchCount" : 256,
             "transportType" : "amqpWebSockets",
             "initialOffsetOptions" : {
                 "type" : "fromStart",
