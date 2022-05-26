@@ -9,18 +9,27 @@ using Microsoft.Extensions.Logging;
 
 namespace nicold.function
 {
-    public static class MyTrigger02
+    public static class ProcessSalesEvents
     {
-        [FunctionName("MyTrigger02")]
-        public static async Task Run([EventHubTrigger("postsalesevents", Connection = "EventHubConnection")] EventData[] events, ILogger log)
+        [FunctionName("ProcessSalesEvents")]
+        public static async Task Run(
+            [EventHubTrigger("postsalesevents", Connection = "EventHubConnection")]
+                EventData[] events, 
+            [CosmosDB(
+                databaseName: "RatingItems",
+                collectionName: "SalesEvents",
+                CreateIfNotExists = true,
+                ConnectionStringSetting = "CosmosDBConnection")] ICollector<SalesEvent> document, 
+            ILogger log)
         {
             var exceptions = new List<Exception>();
+            log.LogInformation("Event hub started");
 
             foreach (EventData eventData in events)
             {
                 try
-                {
-                    // Replace these two lines with your processing logic.
+                {                    
+                    document.Add(eventData.EventBody.ToObjectFromJson<SalesEvent>());
                     log.LogInformation($"C# Event Hub trigger function processed a message: {eventData.EventBody}");
                     await Task.Yield();
                 }
